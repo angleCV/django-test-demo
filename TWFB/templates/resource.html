@@ -6,6 +6,7 @@
 	<title>Document</title>
 	<link rel="stylesheet" href="{% static '/mainapp/css/resource.css' %}">
 	<script src="{% static '/mainapp/js/jQuery-2.1.4.min.js' %}"></script>
+
 </head>
 <body>
 	<div class="zbtw">
@@ -149,54 +150,34 @@
 
         </ul>
 	</div>
-</body>
-
-<script type="text/javascript">
-    $('#zblist').append($('#newAppend'));
-</script>
 
 <script>
-  jQuery(function($){
-		get_zblist();
+
+$(document).ready(function () {
+	setInterval("start_append()",3000);
+});
+function start_append()
+{
+	$.ajax({
+		type:"GET",
+		url:"/mainapp/new_append", //测试用,test_list
+		dataType:"json",
+		//data: {dat:dict},
+		success:function(res){
+			var music="<ul>";
+			//i表示在data中的索引位置，n表示包含的信息的对象
+			$.each(res.value, function(i, item){
+				//获取对象中属性为optionsValue的值
+				music += ('<li><dl><dt>'+ item["realname"] + '</dt><dd><div class="img2"><p>'+item["content"]+'</p></div></dd></dl><div class="cl"></div></li>');
+			});
+			music+="</ul>";
+			$('#newAppend').append(music);
+		}
 	});
-
-	function get_zblist(){
-		$.ajax({
-			type			: 'get',
-			url             : '/mainapp/zblist/'
-			dataType		: 'json',
-			data			: postdata,  //接受用自定义的格式解析
-			success			: function(response){
-
-
-				//console.dir(response);
-			    for (var i = response.zblist.length - 1; i >= 0; i--) {
-						var row = response.zblist[i]; // ($id).html(value)渲染id对象
-						var li = [
-								<li>',
-										<dl>',
-											<dt>'+row.realname+'</dt>',
-											<dd>',
-												<div class="img2">',
-													<p>'+ html(row.content) +'</p>',
-												</div>',
-											</dd>',
-										</dl>',
-										<div class="cl"></div>',
-								</li>'
-
-						].join('');
-						$('#newAppend').prepend(li);
-				}
-				setTimeout(callee, 3000);
-
-				setTimeout(function(){
-					trigger_refresh();
-				}, 10000);
-
-			}
-		});
-	}
+}
 </script>
 
+
+	<script type="text/javascript">$('#zblist').append($('#newAppend'));</script>
+</body>
 </html>

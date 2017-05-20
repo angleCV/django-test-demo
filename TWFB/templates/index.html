@@ -18,7 +18,7 @@ $(document).ready(function () {
     }
 </script>
 
-
+</head>
 
 <body>
     {% block demo %}
@@ -33,43 +33,29 @@ $(document).ready(function () {
     <div id="result"></div>
 
 <script>
-$(document).ready(function () {
-        setInterval("startRequest()",1000);
-    });
-    function startRequest(){
-       $.ajax({
-			type			: 'get',
-			url             : '/mainapp/actanble/'
-			dataType		: 'json',
-			data			: postdata,  //接受用自定义的格式解析
-			success			: function(response){
-
-			    $('#test').append(response.name);
-			}
-
-   }
-</script>
-
-<script>
 $(document).ready(function(){
-$('#button').click(function(){
-$.ajax({
-type:"GET",
-url:'/mainapp/actanble',
-dataType:"postdata",
-success:function(data){
-var music="<ul>";
-//i表示在data中的索引位置，n表示包含的信息的对象
-$.each(data,function(i,n){
-    //获取对象中属性为optionsValue的值
-    music+="<li>"+n["optionValue"]+"</li>";
+    $('#button').click(function(){
+        $.ajax({
+            type:"GET",
+            url:"/mainapp/actanble",
+            dataType:"json",
+            //data: {dat:dict},
+            success:function(dict){
+                console.log(dict);
+                var music="<ul>";
+                //i表示在data中的索引位置，n表示包含的信息的对象
+                $.each(dict.dict, function(i, item){
+                    //获取对象中属性为optionsValue的值
+                    music+="<li>"+ item["optionValue"] +"</li>";
+                    });
+
+                music+="</ul>";
+                $('#result').append(music);
+                $('#result').append("<ul><li>打印完毕</li></ul>");
+            }
+        });
+        return false;
     });
-    music+="</ul>";
-    $('#result').append(music);
-    }
-});
-return false;
-});
 });
 
 </script>
