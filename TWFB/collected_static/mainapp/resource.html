@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="css/resource.css">
+	<script src="js/jQuery-2.1.4.min.js"></script>
+</head>
+<body>
+	<div class="zbtw">
+		<ul id="zblist">
+			<li>
+				<dl>
+					<dt>梵蒂冈电台</dt>
+					<dd>
+						<div class="img2">
+							<p>在现场热烈的掌声中，本次网络安全前沿技术高峰论坛落下了帷幕。在这两天中，多位网络安全的专家，围绕“关键信息基础设施安全”、“云计算与大数据安全保护”、“态势感知技术等网络安全发展趋势”为我们奉献了一场场精彩的演讲，让观众们受益匪浅。本次网络安全前沿技术高峰论坛图文直播到此结束，谢谢大家的陪伴</p>					
+						</div>
+					</dd>
+				</dl>
+				<div class="cl"></div>
+			</li>
+			<li>
+				<dl>
+					<dt>阿登指挥部</dt>
+					<dd>
+						<div class="img2">
+							<p>现场观众提问：各位专家认为在实践过程中，效率和准确性的关系是怎样的？刘峰：态势感知是实时的，数据是海量的，大数据通过实时关联感知数据的准确性.</p>						
+						</div>
+					</dd>
+				</dl>
+				<div class="cl"></div>
+			</li>
+			<li>
+				<dl>
+					<dt>阿登指挥部</dt>
+					<dd>
+						<div class="img2">
+							<p>现场观众就态势感知向专家提问。
+						</div>
+					</dd>
+				</dl>
+				<div class="cl"></div>
+			</li>
+			<li>
+				<dl>
+					<dt>阿登指挥部</dt>
+					<dd>
+						<div class="img2">
+							<p>王钊：在游戏安全方面，如果有丰富的态势感知数据，就可以提前发现游戏中的安全问题。
+						</div>
+					</dd>
+				</dl>
+				<div class="cl"></div>
+			</li>
+			<li>
+				<dl>
+					<dt>阿登指挥部</dt>
+					<dd>
+						<div class="img2">
+							<p>刘峰：态势感知中一个非常重要的难点就是算法，算出的结果要非常可靠，准确率要高。
+						</div>
+					</dd>
+				</dl>
+				<div class="cl"></div>
+			</li>
+			<li>
+				<dl>
+					<dt>阿登指挥部</dt>
+					<dd>
+						<div class="img2">
+							<p>对于如何培养态势感知的人才，董安波认为，可以组织工程师到高校为学生讲课，传授知识，为企业培养人才。
+						</div>
+					</dd>
+				</dl>
+				<div class="cl"></div>
+			</li>
+			<li>
+				<dl>
+					<dt>阿登指挥部</dt>
+					<dd>
+						<div class="img2">
+							<p>李森虎：态势感知存在三个无法解决的痛点，也是整个行业的三个痛点，即①对数据真伪的甄别困难；②数学模型：态势感知缺乏数学方面的人才；③不能明确态势感知能为客户带来什么好处。</p>						
+						</div>
+					</dd>
+				</dl>
+				<div class="cl"></div>
+			</li>
+			<li>
+				<dl>
+					<dt>阿登指挥部</dt>
+					<dd>
+						<div class="img2">
+							<p>赖洪昌：网络安全防护要靠对恶意攻击者形成威慑，把黑客揪出来。
+						</div>
+					</dd>
+				</dl>
+				<div class="cl"></div>
+			</li>
+			<li>
+				<dl>
+					<dt>阿登指挥部</dt>
+					<dd>
+						<div class="img2">
+							<p>现场专家简单介绍了他们在安全态势感知方面作出的努力。
+						</div>
+					</dd>
+				</dl>
+				<div class="cl"></div>
+			</li><!-- $zblist @ VOLIST = ENDED -->
+		</ul>
+	</div>
+</body>
+<script>
+  jQuery(function($){
+		get_zblist();
+	});
+
+	var curlastid = parseInt('106');
+
+	function get_zblist(){
+		var postdata = {
+			lastid : curlastid
+		}
+		$.ajax({
+			type			: 'get',
+			url             : 'mainapp'
+			dataType		: 'json',
+			data			: postdata,
+			success			: function(response){
+				curlastid = parseInt(response.lastid);
+				//console.dir(response);
+
+				if(response.zblist.length > 0){
+					(function(i){
+						var callee = arguments.callee;
+						if(i < response.zblist.length){
+							var row = response.zblist[i];
+							var li = [
+								'		<li>',
+								'			<dl class="clearfix">',
+								'				<dt>'+row.realname+'</dt>',
+								'				<dd>'+row.content+'</dd>',
+								'			</dl>',
+								'		</li>'
+							].join('');
+							$('#zblist').prepend(li);
+
+							setTimeout(callee, 100);
+						}
+
+					})(0);
+				}
+
+				setTimeout(function(){
+					trigger_refresh();
+				}, 10000);
+			}
+		});
+	}
+</script>
+</html>

@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试用例</title>
+
+    <script src="{% static '/mainapp/js/jQuery-2.1.4.min.js' %}"></script>
+
+ <!-- 更新时间的代码 -->
+<script>
+$(document).ready(function () {
+        setInterval("startRequest()",1000);
+    });
+    function startRequest()
+    {
+        $("#date").text((new Date()).toString());
+    }
+</script>
+
+
+
+<body>
+    {% block demo %}
+    <p> {{t}}</p>
+<!--    <p id="date"> date </p> -->
+    {% endblock %}
+    <div id="test"> "测试Ajax" </div>
+
+
+    <div>点击按钮获取JSON数据</div>
+    <input type="button" id="button" value="确定" />
+    <div id="result"></div>
+
+<script>
+$(document).ready(function () {
+        setInterval("startRequest()",1000);
+    });
+    function startRequest(){
+       $.ajax({
+			type			: 'get',
+			url             : '/mainapp/actanble/'
+			dataType		: 'json',
+			data			: postdata,  //接受用自定义的格式解析
+			success			: function(response){
+
+			    $('#test').append(response.name);
+			}
+
+   }
+</script>
+
+<script>
+$(document).ready(function(){
+$('#button').click(function(){
+$.ajax({
+type:"GET",
+url:'/mainapp/actanble',
+dataType:"postdata",
+success:function(data){
+var music="<ul>";
+//i表示在data中的索引位置，n表示包含的信息的对象
+$.each(data,function(i,n){
+    //获取对象中属性为optionsValue的值
+    music+="<li>"+n["optionValue"]+"</li>";
+    });
+    music+="</ul>";
+    $('#result').append(music);
+    }
+});
+return false;
+});
+});
+
+</script>
+
+</body>
+</html>

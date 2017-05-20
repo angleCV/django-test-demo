@@ -1,0 +1,30 @@
+
+<!--start add 块儿URL的添加-->
+    <p> 加载 UL的 html 过来 </p>>
+        <p>{{test | safe}}</p>
+<p> 上面有没有内容啊</p>
+            {% block append %}
+				{% for post in add_ls %}
+			<li>
+				<dl>
+					<dt>{{post.realname}}</dt>
+					<dd>
+						<div class="img2">
+							<p>{{post.content | safe}}</p>
+						</div>
+					</dd>
+				</dl>
+				<div class="cl"></div>
+			</li>
+				{% endfor %}
+			{% endblock %}
+
+<!-- endadd -->
+
+
+<!--
+
+	重要的事情，描述：
+		要加到头部; content重的内容
+
+-->
